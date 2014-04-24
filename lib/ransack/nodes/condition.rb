@@ -168,9 +168,14 @@ module Ransack
 
       def arel_predicate
         predicates = attributes.map do |attr|
-          attr.attr.send(
+          arel_node = attr.attr.send(
             predicate.arel_predicate, formatted_values_for_attribute(attr)
-            )
+          )
+          if predicate.type == :boolean && !value
+            Arel::Nodes::Not.new(arel_node)
+          else
+            arel_node
+          end
         end
 
         if predicates.size > 1

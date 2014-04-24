@@ -40,22 +40,34 @@ module Ransack
         arel_predicate: 'eq',
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) }
+        formatter: proc { |v| true }
+        }
+      ],
+      ['not_true', {
+        arel_predicate: 'not_eq',
+        compounds: false,
+        type: :boolean,
+        formatter: proc { |v| true }
         }
       ],
       ['false', {
         arel_predicate: 'eq',
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) },
-        formatter: proc { |v| !v }
+        formatter: proc { |v| false }
+        }
+      ],
+      ['not_false', {
+        arel_predicate: 'not_eq',
+        compounds: false,
+        type: :boolean,
+        formatter: proc { |v| false }
         }
       ],
       ['present', {
         arel_predicate: 'not_eq_all',
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) },
         formatter: proc { |v| [nil, ''] }
         }
       ],
@@ -63,7 +75,6 @@ module Ransack
         arel_predicate: 'eq_any',
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) },
         formatter: proc { |v| [nil, ''] }
         }
       ],
@@ -71,7 +82,6 @@ module Ransack
         arel_predicate: 'eq',
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v)},
         formatter: proc { |v| nil }
         }
       ],
@@ -79,8 +89,8 @@ module Ransack
         arel_predicate: 'not_eq',
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) },
-        formatter: proc { |v| nil } }
+        formatter: proc { |v| nil }
+        }
       ]
     ]
 
