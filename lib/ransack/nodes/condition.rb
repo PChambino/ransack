@@ -168,9 +168,8 @@ module Ransack
 
       def arel_predicate
         predicates = attributes.map do |attr|
-          attr.attr.send(
-            predicate.arel_predicate, formatted_values_for_attribute(attr)
-            )
+          arel_predicate = predicate.arel_predicate.call(value)
+          attr.attr.send(arel_predicate, formatted_values_for_attribute(attr))
         end
 
         if predicates.size > 1

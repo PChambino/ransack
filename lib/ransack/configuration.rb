@@ -20,7 +20,7 @@ module Ransack
       compounds = opts.delete(:compounds)
       compounds = true if compounds.nil?
       compounds = false if opts[:wants_array]
-      opts[:arel_predicate] = opts[:arel_predicate].to_s
+      opts[:arel_predicate] = opts[:arel_predicate] || ''
 
       self.predicates[name] = Predicate.new(opts)
 

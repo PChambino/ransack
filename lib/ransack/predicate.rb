@@ -42,7 +42,7 @@ module Ransack
 
     def initialize(opts = {})
       @name = opts[:name]
-      @arel_predicate = opts[:arel_predicate]
+      @arel_predicate = opts[:arel_predicate].is_a?(Proc) ? opts[:arel_predicate] : lambda { |v| opts[:arel_predicate] }
       @type = opts[:type]
       @formatter = opts[:formatter]
       @validator = opts[:validator] || lambda {

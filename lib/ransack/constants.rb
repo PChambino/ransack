@@ -37,49 +37,58 @@ module Ransack
         }
       ],
       ['true', {
-        arel_predicate: 'eq',
+        arel_predicate: proc { |v| v ? 'eq' : 'not_eq' },
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) }
+        formatter: proc { |v| true }
+        }
+      ],
+      ['not_true', {
+        arel_predicate: proc { |v| v ? 'not_eq' : 'eq' },
+        compounds: false,
+        type: :boolean,
+        formatter: proc { |v| true }
         }
       ],
       ['false', {
-        arel_predicate: 'eq',
+        arel_predicate: proc { |v| v ? 'eq' : 'not_eq' },
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) },
-        formatter: proc { |v| !v }
+        formatter: proc { |v| false }
+        }
+      ],
+      ['not_false', {
+        arel_predicate: proc { |v| v ? 'not_eq' : 'eq' },
+        compounds: false,
+        type: :boolean,
+        formatter: proc { |v| false }
         }
       ],
       ['present', {
-        arel_predicate: 'not_eq_all',
+        arel_predicate: proc { |v| v ? 'not_eq_all' : 'eq_any' },
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) },
         formatter: proc { |v| [nil, ''] }
         }
       ],
       ['blank', {
-        arel_predicate: 'eq_any',
+        arel_predicate: proc { |v| v ? 'eq_any' : 'not_eq_all' },
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) },
         formatter: proc { |v| [nil, ''] }
         }
       ],
       ['null', {
-        arel_predicate: 'eq',
+        arel_predicate: proc { |v| v ? 'eq' : 'not_eq' },
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v)},
         formatter: proc { |v| nil }
         }
       ],
       ['not_null', {
-        arel_predicate: 'not_eq',
+        arel_predicate: proc { |v| v ? 'not_eq' : 'eq' },
         compounds: false,
         type: :boolean,
-        validator: proc { |v| TRUE_VALUES.include?(v) },
         formatter: proc { |v| nil } }
       ]
     ]
